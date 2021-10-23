@@ -1,40 +1,24 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 #include <types.h>
+#include "os/window.h"
+
+class App : public vx::Application {
+public:
+    void init() override {
+        glClearColor(1.0, 0.5, 0.25, 1.0);
+    }
+    void logic() override {}
+    void draw() override {
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+    void close() override {}
+};
 
 int main(void)
 {
-    GLFWwindow* window;
+    vx::Window window;
+    window.init();
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
-
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
+    window.run<App>();
 }
